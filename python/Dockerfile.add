@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+
+FROM --platform=linux/amd64 python:3.8-slim-buster as build
+
+LABEL Maintainer="bin.chen"
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY src/add-flight-prices.py .
+# structure looks like this '/app/add-flight-prices.py'
+
+
+#CMD instruction should be used to run the software
+#contained by your image, along with any arguments.
+
+CMD [ "python", "./add-flight-prices.py"]
