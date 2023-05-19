@@ -21,18 +21,20 @@ a.	az login (follow the interactive sign in)
 b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 5.	We will utilize Azure File Share as the main storage and connect minio to it.
 6.	First, we deploy a PVC Claim. This will dynamically create a Storage account and File Share for you in Azure. It will create it in the same resource as your AKS resource Group:
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: minio-pvc
-  namespace: minio
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: managed-csi
-  resources:
-    requests:
-      storage: 1Gi
+    ```
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: minio-pvc
+      namespace: minio
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: managed-csi
+      resources:
+        requests:
+          storage: 1Gi
+    ```
 7.	Now find the resource group starting with MC_ which your Kubernetes resource creation created. You will see a storage account type and inside it is your file share.
 8.	Now we will deploy argo, minio, and give it the proper permissions.
 9.	Deploy minio using the existing PVC storage that we just created mounted to Azure File Share: 
