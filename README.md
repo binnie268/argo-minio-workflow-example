@@ -63,54 +63,54 @@ b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 17.	Upload the csv file downloaded from the github to ‘inputs’ folder.
 18.	Next, we want to get argo ready to have permissions to execute workflows and access minio.
     1. Create a minio secret and replace the username and password with the one you have saved earlier:
-      ```
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: minio
-        namespace: argo
-      type: Opaque
-      data:
-        root-password: replace-this-with-yours
-        root-user: replace-this-with-yours
-      ```
+        ```
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: minio
+          namespace: argo
+        type: Opaque
+        data:
+          root-password: replace-this-with-yours
+          root-user: replace-this-with-yours
+        ```
     2. Configure argo’s s3 repository by implementing the following. Run the following command to replace the current resource: 
-      ```kubectl create configmap -o yaml --dry-run | kubectl apply -f -```
-      ```
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: workflow-controller-configmap
-        namespace: argo
-      data:
-        config: |
-          instanceID: my-ci-controller
-          artifactRepository:
-            archiveLogs: true
-            s3:
-              endpoint: minio.minio:9000
-              bucket: argo
-              region: us-east-2
-              insecure: true
-              accessKeySecret:
-                name: minio
-                key: root-user
-              secretKeySecret:
-                name: minio
-                key: root-password
-         ```
+        ```kubectl create configmap -o yaml --dry-run | kubectl apply -f -```
+        ```
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: workflow-controller-configmap
+          namespace: argo
+        data:
+          config: |
+            instanceID: my-ci-controller
+            artifactRepository:
+              archiveLogs: true
+              s3:
+                endpoint: minio.minio:9000
+                bucket: argo
+                region: us-east-2
+                insecure: true
+                accessKeySecret:
+                  name: minio
+                  key: root-user
+                secretKeySecret:
+                  name: minio
+                  key: root-password
+           ```
     3. Configure the proper roles for the argo workflow controller:
        1. Download the yaml here.
-ii.	On the same directory as the yaml file, run kubectl create role -o yaml --dry-run | kubectl apply -f -
-d.	Configure the proper roles for the argo server:
-i.	Down the yaml here.
-ii.	On the same directory as the yaml file run, kubectl create role -o yaml --dry-run | kubectl apply -f -
-e.	Now, clone the main.go code here. Make sure you have go installed.
-f.	Expose the argo console by running this command: kubectl -n argo port-forward deployment/argo-server 2746:2746
-g.	Open a browser and go to localhost:2746
-h.	On the same path as the main.go, run “go run main.go”
-i.	This program will construct an argo workflow template containing the instructions to sum flight prices, average them, and then pick a flight and submit it to argo. Argo will then orchestrate the management of each pod and take care of everything for us. It automates the process from adding the flight prices, to giving the results to the next step which is to average the flight prices, and then finally decide on a destination. All we have to do is just construct and submit a template of instructions to argo. That is the real beauty of argo .
-j.	Check in the argo console for the workflow you just ran in the “argo” namespace
-k.	After it has finished running, check minio console under argo/outputs for the flight decision and and localhost:2746 will show the workflow completed as below.
+       2. On the same directory as the yaml file, run ```kubectl create role -o yaml --dry-run | kubectl apply -f -```
+    4. Configure the proper roles for the argo server:
+       1. Down the yaml here.
+       2. On the same directory as the yaml file run, ```kubectl create role -o yaml --dry-run | kubectl apply -f -```
+    5. Now, clone the main.go code here. Make sure you have go installed.
+    6. Expose the argo console by running this command: ```kubectl -n argo port-forward deployment/argo-server 2746:2746```
+    7. Open a browser and go to localhost:2746
+    8. On the same path as the main.go, run ```go run main.go```
+    9. This program will construct an argo workflow template containing the instructions to sum flight prices, average them, and then pick a flight and submit it to argo. Argo will then orchestrate the management of each pod and take care of everything for us. It automates the process from adding the flight prices, to giving the results to the next step which is to average the flight prices, and then finally decide on a destination. All we have to do is just construct and submit a template of instructions to argo. That is the real beauty of argo .
+    10. Check in the argo console for the workflow you just ran in the “argo” namespace
+    11. After it has finished running, check minio console under argo/outputs for the flight decision and and localhost:2746 will show the workflow completed as below.
 ![image](https://github.com/binnie268/argo-minio-workflow-example/assets/29080449/d6694de1-bcea-45f3-883f-47d1daa165e4)
 
