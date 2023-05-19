@@ -60,7 +60,7 @@ b.	Please note down the username and password that came with it. You will need i
 16.	Create a bucket called argo, and a folder inside it called ‘inputs’.
 17.	Upload the csv file downloaded from the github to ‘inputs’ folder.
 18.	Next, we want to get argo ready to have permissions to execute workflows and access minio.
-    - Create a minio secret and replace the username and password with the one you have saved earlier:
+    1. Create a minio secret and replace the username and password with the one you have saved earlier:
       ```
       apiVersion: v1
       kind: Secret
@@ -72,31 +72,31 @@ b.	Please note down the username and password that came with it. You will need i
         root-password: replace-this-with-yours
         root-user: replace-this-with-yours
       ```
-b.	Configure argo’s s3 repository by implementing the following. Run the following command to replace the current resource: 
-    ```kubectl create configmap -o yaml --dry-run | kubectl apply -f -```
-    ```
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: workflow-controller-configmap
-      namespace: argo
-    data:
-      config: |
-        instanceID: my-ci-controller
-        artifactRepository:
-          archiveLogs: true
-          s3:
-            endpoint: minio.minio:9000
-            bucket: argo
-            region: us-east-2
-            insecure: true
-            accessKeySecret:
-              name: minio
-              key: root-user
-            secretKeySecret:
-              name: minio
-              key: root-password
-       ```
+    2. Configure argo’s s3 repository by implementing the following. Run the following command to replace the current resource: 
+      ```kubectl create configmap -o yaml --dry-run | kubectl apply -f -```
+      ```
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: workflow-controller-configmap
+        namespace: argo
+      data:
+        config: |
+          instanceID: my-ci-controller
+          artifactRepository:
+            archiveLogs: true
+            s3:
+              endpoint: minio.minio:9000
+              bucket: argo
+              region: us-east-2
+              insecure: true
+              accessKeySecret:
+                name: minio
+                key: root-user
+              secretKeySecret:
+                name: minio
+                key: root-password
+         ```
 c.	Configure the proper roles for the argo workflow controller:
 i.	Download the yaml here.
 ii.	On the same directory as the yaml file, run kubectl create role -o yaml --dry-run | kubectl apply -f -
