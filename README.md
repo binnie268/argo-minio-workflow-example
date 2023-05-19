@@ -113,6 +113,7 @@ b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     10. Check in the argo console for the workflow you just ran in the “argo” namespace
     11. After it has finished running, check minio console under argo/outputs for the flight decision and and localhost:2746 will show the workflow completed as below.
 
-![image](https://github.com/binnie268/argo-minio-workflow-example/assets/29080449/ae316e00-fd42-4847-938a-71e95b5d110a)
+<img src=![image](https://github.com/binnie268/argo-minio-workflow-example/assets/29080449/ae316e00-fd42-4847-938a-71e95b5d110a) width="48">
+
 
 
