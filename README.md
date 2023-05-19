@@ -112,5 +112,4 @@ b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     9. This program will construct an argo workflow template containing the instructions to sum flight prices, average them, and then pick a flight and submit it to argo. Argo will then orchestrate the management of each pod and take care of everything for us. It automates the process from adding the flight prices, to giving the results to the next step which is to average the flight prices, and then finally decide on a destination. All we have to do is just construct and submit a template of instructions to argo. That is the real beauty of argo .
     10. Check in the argo console for the workflow you just ran in the “argo” namespace
     11. After it has finished running, check minio console under argo/outputs for the flight decision and and localhost:2746 will show the workflow completed as below.
-![image](https://github.com/binnie268/argo-minio-workflow-example/assets/29080449/d6694de1-bcea-45f3-883f-47d1daa165e4)
 
