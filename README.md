@@ -41,14 +41,15 @@ b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 a.	helm install --namespace minio minio --set persistence.existingClaim=minio-pvc bitnami/minio
 b.	Please note down the username and password that came with it. You will need it shortly. 
 10.	Install argo-workflows into Kubernetes with this command:
-    a. 
     ```
     kubectl create namespace argo
     kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.3.10/install.yaml
     ```
 11.	You can make sure that the two tools are deployed into Kubernetes by running:
-a.	kubectl get pods -n argo
-b.	kubectl get pods -n minio
+    ```
+    kubectl get pods -n argo
+    kubectl get pods -n minio
+    ```	
 12.	Now we will put our first file into minio to prepare for an argo workflow run (in an actual application you would automate this process)
 13.	The csv downloaded previously will be needed in these next steps
 14.	Now, port forward your minio console so that you can access it through the UI:
