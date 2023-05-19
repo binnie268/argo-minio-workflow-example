@@ -38,10 +38,10 @@ b.	az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 7.	Now find the resource group starting with MC_ which your Kubernetes resource creation created. You will see a storage account type and inside it is your file share.
 8.	Now we will deploy argo, minio, and give it the proper permissions.
 9.	Deploy minio using the existing PVC storage that we just created mounted to Azure File Share: 
-    ```
-    helm install --namespace minio minio --set persistence.existingClaim=minio-pvc bitnami/minio
-    ```
-b.	Please note down the username and password that came with it. You will need it shortly. 
+    1. ```
+       helm install --namespace minio minio --set persistence.existingClaim=minio-pvc bitnami/minio
+       ```
+    2. Please note down the username and password that came with it. You will need it shortly. 
 10.	Install argo-workflows into Kubernetes with this command:
     ```
     kubectl create namespace argo
